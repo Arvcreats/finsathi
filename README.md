@@ -13,7 +13,7 @@
 
 ## 🌐 Live Demo
 
-👉 **[Open FinSathi](https://root-access-009.github.io/finsathi/)** *(link activates once GitHub Pages is turned on)*
+👉 **[Open FinSathi](https://arvcreats.github.io/finsathi/)** *(link activates once GitHub Pages is turned on)*
 
 ## 📱 Install on Your Phone (like an app)
 
@@ -81,7 +81,7 @@ FinSathi is an **educational money planner, not a SEBI-registered financial advi
 
 ## 👤 Author
 
-**Atharv Patel** — First-year B.Com student at MIT.
+**Atharv Patel** — First-year B.Com student at MIT Arts, Commerce and Science College (MIT ACSC), Pune.
 Built FinSathi so that good money planning is free for everyone, not just for people who can pay an advisor.
 
 *FinSathi — Aspire. Save. Achieve.*
