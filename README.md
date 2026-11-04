@@ -84,7 +84,7 @@ FinSathi is an **educational money planner, not a SEBI-registered financial advi
 
 ## 👤 Author
 
-**Atharv Patel** — First-year B.Com student at MIT Arts, Commerce and Science College (MIT ACSC), Pune.
+**Atharv Patel** — First-year B.Com student at MIT, Pune.
 Built FinSathi so that good money planning is free for everyone, not just for people who can pay an advisor.
 
 *FinSathi — Aspire. Save. Achieve.*
