@@ -1,3 +1,5 @@
+<p align="center"><img src="logo.png" width="120" alt="FinSathi logo"></p>
+
 # 💰 FinSathi — Your Free Personal Finance Advisor
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
@@ -61,6 +63,7 @@ python -m http.server 8000
 ```
 finsathi/
 ├── index.html    ← the complete app (UI + calculations + AI)
+├── logo.png      ← the FinSathi logo (app icon + favicon)
 ├── README.md     ← this file
 └── LICENSE       ← MIT License
 ```
