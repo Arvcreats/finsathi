@@ -1,334 +1,488 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>FinSathi — Your Free Personal Finance Advisor</title>
-<meta name="description" content="FinSathi is a free educational money planner: budget check, goal planning and friendly AI advice in simple English.">
-<meta name="theme-color" content="#0b3d2e">
+<meta name="description" content="FinSathi is a free educational money planner: budget check, goal planning and friendly AI advice.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="FinSathi — Your Free Personal Finance Advisor">
+<meta property="og:description" content="Budget check, goal planning, expense tracking and friendly AI advice. 100% free, no sign-up.">
+<meta property="og:url" content="https://arvcreats.github.io/finsathi/">
+<meta property="og:image" content="https://arvcreats.github.io/finsathi/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" content="#0a0f0d">
 <link rel="icon" type="image/png" href="logo.png">
 <link rel="apple-touch-icon" href="logo.png">
+<link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="FinSathi">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💰</text></svg>">
-<style>
-  :root{
-    --bg:#07130f; --bg2:#0b3d2e; --card:rgba(255,255,255,.06); --card2:rgba(255,255,255,.09);
-    --line:rgba(255,255,255,.12); --txt:#eaf5ef; --mut:#9db8ab; --grn:#22c55e; --grn2:#4ade80;
-    --gold:#f5c542; --red:#f87171; --rad:18px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'Segoe UI',system-ui,-apple-system,Roboto,'Noto Sans',sans-serif;color:var(--txt);
-    background:
-      radial-gradient(900px 500px at 15% -5%, rgba(34,197,94,.25), transparent 60%),
-      radial-gradient(800px 500px at 90% 10%, rgba(245,197,66,.14), transparent 55%),
-      linear-gradient(160deg, var(--bg2), var(--bg) 55%);
-    min-height:100vh; padding:18px 14px 40px;
-  }
-  .wrap{max-width:880px;margin:0 auto}
-  header{text-align:center;padding:22px 8px 8px;animation:fade .6s ease both}
-  .logo-img{width:58px;height:58px;border-radius:15px;box-shadow:0 12px 30px rgba(0,0,0,.5)}
-  h1{font-size:clamp(28px,6vw,42px);font-weight:800;letter-spacing:.3px}
-  h1 span{background:linear-gradient(90deg,var(--grn2),var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .tag{color:var(--mut);margin-top:6px;font-size:15px}
-  .free{display:inline-block;margin-top:12px;background:linear-gradient(90deg,var(--grn),#16a34a);color:#04150c;
-    font-weight:700;font-size:12.5px;padding:5px 14px;border-radius:999px;letter-spacing:.6px}
-  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:20px;margin-top:18px;
-    backdrop-filter:blur(10px);box-shadow:0 12px 32px rgba(0,0,0,.35);animation:fade .6s ease both}
-  .card h2{font-size:19px;margin-bottom:4px}
-  .card .sub{color:var(--mut);font-size:13.5px;margin-bottom:14px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:560px){.grid{grid-template-columns:1fr}}
-  label{display:block;font-size:13px;color:var(--mut);margin-bottom:6px;font-weight:600}
-  input,select{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;color:var(--txt);
-    padding:12px 13px;font-size:16px;outline:none;transition:.2s}
-  input:focus{border-color:var(--grn);box-shadow:0 0 0 3px rgba(34,197,94,.25)}
-  .btn{display:block;width:100%;margin-top:16px;border:none;cursor:pointer;border-radius:14px;padding:15px;
-    font-size:17px;font-weight:800;color:#04150c;background:linear-gradient(90deg,var(--grn2),var(--grn));
-    box-shadow:0 10px 24px rgba(34,197,94,.35);transition:.15s}
-  .btn:hover{transform:translateY(-1px)} .btn:active{transform:scale(.99)}
-  .btn:disabled{opacity:.55;cursor:wait;transform:none}
-  .btn.gold{background:linear-gradient(90deg,var(--gold),#eab308);box-shadow:0 10px 24px rgba(245,197,66,.3)}
-  .metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-  @media(max-width:700px){.metrics{grid-template-columns:repeat(2,1fr)}}
-  .metric{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:14px;text-align:center}
-  .metric .v{font-size:clamp(17px,4.5vw,23px);font-weight:800}
-  .metric .k{font-size:12px;color:var(--mut);margin-top:4px;line-height:1.35}
-  .bar-row{margin-top:13px}
-  .bar-head{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:5px}
-  .bar-track{height:12px;background:rgba(0,0,0,.4);border-radius:99px;overflow:hidden}
-  .bar-fill{height:100%;border-radius:99px;width:0;transition:width 1s cubic-bezier(.2,.8,.2,1)}
-  .ok{color:var(--grn2)} .bad{color:var(--red)} .gold{color:var(--gold)}
-  .verdict{margin-top:15px;padding:13px 15px;border-radius:12px;background:rgba(245,197,66,.12);
-    border:1px solid rgba(245,197,66,.35);font-size:14.5px;line-height:1.55}
-  .hidden{display:none!important}
-  .status{font-size:13.5px;color:var(--gold);margin-top:10px;min-height:18px}
-  .advice{white-space:pre-wrap;line-height:1.65;font-size:15px;background:rgba(0,0,0,.3);
-    border:1px solid var(--line);border-radius:12px;padding:15px;margin-top:12px}
-  .chatlog{display:flex;flex-direction:column;gap:10px;margin-top:6px;max-height:340px;overflow:auto;padding-right:4px}
-  .msg{max-width:88%;padding:11px 14px;border-radius:14px;line-height:1.55;font-size:14.5px;white-space:pre-wrap}
-  .msg.u{align-self:flex-end;background:linear-gradient(120deg,#15803d,#16a34a);color:#eafff2;border-bottom-right-radius:4px}
-  .msg.a{align-self:flex-start;background:rgba(255,255,255,.08);border:1px solid var(--line);border-bottom-left-radius:4px}
-  .chatrow{display:flex;gap:9px;margin-top:12px}
-  .chatrow input{flex:1}
-  .chatrow button{border:none;cursor:pointer;border-radius:12px;padding:0 20px;font-weight:800;font-size:15px;
-    background:linear-gradient(90deg,var(--grn2),var(--grn));color:#04150c}
-  .chatrow button:disabled{opacity:.55;cursor:wait}
-  footer{text-align:center;color:var(--mut);font-size:12.5px;margin-top:26px;line-height:1.6;padding:0 8px}
-  .keyrow{display:flex;gap:9px}
-  .keyrow input{flex:1}
-  .keyrow button{border:1px solid var(--line);background:var(--card2);color:var(--txt);border-radius:12px;
-    padding:0 16px;cursor:pointer;font-weight:600}
-  @keyframes fade{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
-</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <div class="wrap">
 
-  <header>
-    <img class="logo-img" src="logo.png" alt="FinSathi logo">
-    <h1>Fin<span>Sathi</span></h1>
-    <p class="tag">Your Free Personal Finance Advisor — budgeting, saving and goal planning, explained like a friend.</p>
-    <span class="free">100% FREE • NO SIGN-UP</span>
+  <header class="topbar">
+    <div class="brand">
+      <img class="logo-img" src="logo.png" alt="FinSathi logo">
+      <div class="brand-txt">
+        <div class="brand-name">Fin<span>Sathi</span></div>
+        <div class="brand-tag" data-i18n="brand_tag">Your free personal finance advisor</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <select id="lang-select" class="lang-select" aria-label="Language">
+        <option value="en">English</option>
+        <option value="hi">हिंदी</option>
+        <option value="hinglish">Hinglish</option>
+      </select>
+      <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch theme">
+        <svg class="ic ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="ic ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+    </div>
   </header>
 
-  <!-- INPUT FORM -->
-  <section class="card">
-    <h2>📋 Enter Your Details</h2>
-    <p class="sub">Enter your numbers and FinSathi will build your complete money plan instantly.</p>
-    <div class="grid">
-      <div><label>Your Name</label><input id="f-name" type="text" placeholder="e.g. Rahul Sharma" autocomplete="name"></div>
-      <div><label>Age (years)</label><input id="f-age" type="number" min="18" max="100" value="18"></div>
-      <div><label>Monthly Income (₹)</label><input id="f-income" type="number" min="0" value="50000"></div>
-      <div><label>Monthly NEEDS — rent, food, bills, travel (₹)</label><input id="f-needs" type="number" min="0" value="22000"></div>
-      <div><label>Monthly WANTS — eating out, shopping, fun (₹)</label><input id="f-wants" type="number" min="0" value="13000"></div>
-      <div><label>Goal Name</label><input id="f-goalname" type="text" value="New Laptop"></div>
-      <div><label>Goal Amount (₹)</label><input id="f-goalamount" type="number" min="0" value="40000"></div>
-      <div><label>In How Many Months?</label><input id="f-months" type="number" min="1" value="6"></div>
-    </div>
-    <button class="btn" id="btn-calc">Calculate My Finances 📊</button>
-  </section>
+  <div class="install-bar hidden" id="install-bar">
+    <span class="ib-txt" id="install-txt" data-i18n="install_title">Get the FinSathi app — free, works offline</span>
+    <button class="mini-btn ib-btn" id="btn-install" type="button" data-i18n="install_btn">Install</button>
+    <button class="ib-x" id="btn-install-x" type="button" aria-label="Dismiss">×</button>
+  </div>
 
-  <!-- RESULTS -->
-  <section class="card hidden" id="results">
-    <h2>📈 Your Money Plan</h2>
-    <p class="sub">These calculations are exact — computed by code, not guessed.</p>
-    <div class="metrics">
-      <div class="metric"><div class="v" id="m-savings">—</div><div class="k">Monthly Savings</div></div>
-      <div class="metric"><div class="v" id="m-needed">—</div><div class="k">Needed for Goal / Month</div></div>
-      <div class="metric"><div class="v" id="m-emergency">—</div><div class="k">Emergency Fund Target (6 months)</div></div>
-      <div class="metric"><div class="v" id="m-feasible">—</div><div class="k">Goal Achievable?</div></div>
-    </div>
+  <!-- ============ VIEW: PLAN ============ -->
+  <main id="view-plan" class="view">
+    <section class="card">
+      <div class="steps-head" role="list" aria-label="Plan steps">
+        <button class="step-dot is-active" type="button" data-goto="1" role="listitem">
+          <span class="dot-n">1</span><span class="dot-t" data-i18n="step_income">Income</span>
+        </button>
+        <div class="step-line"></div>
+        <button class="step-dot" type="button" data-goto="2" role="listitem">
+          <span class="dot-n">2</span><span class="dot-t" data-i18n="step_expenses">Expenses</span>
+        </button>
+        <div class="step-line"></div>
+        <button class="step-dot" type="button" data-goto="3" role="listitem">
+          <span class="dot-n">3</span><span class="dot-t" data-i18n="step_goal">Goal</span>
+        </button>
+      </div>
 
-    <h2 style="margin-top:20px">📊 50/30/20 Budget Check</h2>
-    <p class="sub">Ideal split: Needs 50% • Wants 30% • Savings 20%</p>
-    <div class="bar-row">
-      <div class="bar-head"><span>Needs</span><span id="b-needs-txt">—</span></div>
-      <div class="bar-track"><div class="bar-fill" id="b-needs" style="background:#38bdf8"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-head"><span>Wants</span><span id="b-wants-txt">—</span></div>
-      <div class="bar-track"><div class="bar-fill" id="b-wants" style="background:#f5c542"></div></div>
-    </div>
-    <div class="bar-row">
-      <div class="bar-head"><span>Savings</span><span id="b-sav-txt">—</span></div>
-      <div class="bar-track"><div class="bar-fill" id="b-sav" style="background:#22c55e"></div></div>
-    </div>
-    <div class="verdict" id="verdict"></div>
-  </section>
+      <!-- STEP 1 : INCOME -->
+      <div class="step-panel" id="step-1">
+        <h2 class="step-title">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.6"/><path d="M6 12h.01M18 12h.01"/></svg>
+          <span data-i18n="s1_title">About you &amp; your income</span>
+        </h2>
+        <div class="field">
+          <label for="f-name" data-i18n="lbl_name">Your Name</label>
+          <input id="f-name" type="text" data-i18n-ph="ph_name" placeholder="e.g. Rahul Sharma" autocomplete="name">
+          <small class="err" id="e-name"></small>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="f-age" data-i18n="lbl_age">Age (years)</label>
+            <input id="f-age" type="number" min="18" max="100" value="18" inputmode="numeric">
+            <small class="err" id="e-age"></small>
+          </div>
+          <div class="field">
+            <label for="f-income" data-i18n="lbl_income">Monthly Income (₹)</label>
+            <input id="f-income" type="number" min="0" value="50000" inputmode="numeric">
+            <small class="err" id="e-income"></small>
+          </div>
+        </div>
+        <button class="btn" id="btn-next-1" type="button"><span data-i18n="btn_continue">Continue</span>
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </button>
+      </div>
 
-  <!-- AI ADVICE -->
-  <section class="card">
-    <h2>🤖 FinSathi AI Advice</h2>
-    <p class="sub">Enter your free Gemini API key (from Google AI Studio). The key is saved only in your browser — it never goes anywhere else.</p>
-    <div class="keyrow">
-      <input id="f-key" type="password" placeholder="Paste your Gemini API key here" autocomplete="off">
-      <button id="btn-key" type="button">Save</button>
-    </div>
-    <button class="btn gold" id="btn-advice">Get My Advice ✨</button>
-    <div class="status" id="ai-status"></div>
-    <div class="advice hidden" id="advice-box"></div>
-  </section>
+      <!-- STEP 2 : EXPENSES -->
+      <div class="step-panel hidden" id="step-2">
+        <h2 class="step-title">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12v20l-2-1.5L14 22l-2-1.5L10 22l-2-1.5L6 22z"/><path d="M9.5 8h5M9.5 12h5"/></svg>
+          <span data-i18n="s2_title">Your monthly expenses</span>
+        </h2>
+        <div class="field">
+          <label for="f-needs" data-i18n="lbl_needs">Monthly NEEDS — rent, food, bills, travel (₹)</label>
+          <input id="f-needs" type="number" min="0" value="22000" inputmode="numeric">
+          <small class="err" id="e-needs"></small>
+        </div>
+        <div class="field">
+          <label for="f-wants" data-i18n="lbl_wants">Monthly WANTS — eating out, shopping, fun (₹)</label>
+          <input id="f-wants" type="number" min="0" value="13000" inputmode="numeric">
+          <small class="err" id="e-wants"></small>
+        </div>
+        <div class="field">
+          <label for="f-efmonths" data-i18n="lbl_ef">Emergency Fund — how many months of needs?</label>
+          <select id="f-efmonths">
+            <option value="3" data-i18n="ef_3">3 months</option>
+            <option value="6" selected data-i18n="ef_6">6 months (recommended)</option>
+            <option value="9" data-i18n="ef_9">9 months</option>
+          </select>
+          <small class="err" id="e-efmonths"></small>
+        </div>
+        <div class="warn hidden" id="form-warn"></div>
+        <div class="btn-row">
+          <button class="btn ghost" id="btn-back-2" type="button">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            <span data-i18n="btn_back">Back</span></button>
+          <button class="btn" id="btn-next-2" type="button"><span data-i18n="btn_continue">Continue</span>
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </div>
+      </div>
 
-  <!-- CHAT -->
-  <section class="card">
-    <h2>💬 Ask FinSathi a Question</h2>
-    <p class="sub">Ask anything about your budget, savings or goal — answers are based on your own plan.</p>
-    <div class="chatlog" id="chatlog"></div>
-    <div class="chatrow">
-      <input id="f-chat" type="text" placeholder="Type your question… (press Enter)">
-      <button id="btn-chat" type="button">Send</button>
-    </div>
-    <div class="status" id="chat-status"></div>
-  </section>
+      <!-- STEP 3 : GOAL -->
+      <div class="step-panel hidden" id="step-3">
+        <h2 class="step-title">
+          <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+          <span data-i18n="s3_title">Your goal</span>
+        </h2>
+        <div class="field">
+          <label for="f-goalname" data-i18n="lbl_goalname">Goal Name</label>
+          <input id="f-goalname" type="text" value="New Laptop">
+          <small class="err" id="e-goalname"></small>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="f-goalamount" data-i18n="lbl_goalamount">Goal Amount (₹)</label>
+            <input id="f-goalamount" type="number" min="0" value="40000" inputmode="numeric">
+            <small class="err" id="e-goalamount"></small>
+          </div>
+          <div class="field">
+            <label for="f-months" data-i18n="lbl_months">In How Many Months?</label>
+            <input id="f-months" type="number" min="1" value="6" inputmode="numeric">
+            <small class="err" id="e-months"></small>
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn ghost" id="btn-back-3" type="button">
+            <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>
+            <span data-i18n="btn_back">Back</span></button>
+          <button class="btn" id="btn-calc" type="button" data-i18n="btn_seeplan">See My Plan</button>
+        </div>
+      </div>
 
-  <footer>
-    ⚠️ <b>Disclaimer:</b> FinSathi is an educational money planner, not a SEBI-registered financial advisor.
-    It does not recommend any specific stock, mutual fund or crypto.<br>
-    Made with ❤️ by Atharv Patel • FinSathi — Aspire. Save. Achieve.
-  </footer>
+      <div class="reset-row">
+        <span class="saved-note" id="saved-note"></span>
+        <button class="link-btn" id="btn-reset" type="button" data-i18n="btn_reset">Reset all data</button>
+      </div>
+    </section>
+
+    <!-- RESULTS -->
+    <section class="card hidden" id="results">
+      <div class="hero">
+        <div class="hero-label" id="hero-label">You save every month</div>
+        <div class="hero-num" id="hero-num">₹0</div>
+        <div class="hero-sub" id="hero-sub"></div>
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="v" id="m-needed">—</div><div class="k" data-i18n="m_needed">Needed for Goal / Month</div></div>
+        <div class="metric"><div class="v" id="m-emergency">—</div><div class="k" id="m-emergency-k">Emergency Fund Target</div></div>
+        <div class="metric"><div class="v" id="m-feasible">—</div><div class="k" data-i18n="m_feasible">Goal Achievable?</div></div>
+      </div>
+
+      <h3 class="card-h" data-i18n="budget_h">50/30/20 Budget Check</h3>
+      <p class="sub" data-i18n="budget_sub">Ideal split: Needs 50% • Wants 30% • Savings 20%</p>
+      <div class="bar-row">
+        <div class="bar-head"><span data-i18n="bar_needs">Needs</span><span id="b-needs-txt">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="b-needs" style="background:#38bdf8"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-head"><span data-i18n="bar_wants">Wants</span><span id="b-wants-txt">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="b-wants" style="background:var(--gold)"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-head"><span data-i18n="bar_savings">Savings</span><span id="b-sav-txt">—</span></div>
+        <div class="bar-track"><div class="bar-fill" id="b-sav" style="background:var(--grn)"></div></div>
+      </div>
+      <div class="verdict" id="verdict"></div>
+
+      <h3 class="card-h" data-i18n="chart_h">Your money at a glance</h3>
+      <div class="chart-flex">
+        <div class="donut-wrap">
+          <svg id="donut" viewBox="0 0 120 120" role="img" aria-label="Budget split chart">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="var(--track)" stroke-width="15"/>
+            <circle id="seg-needs" cx="60" cy="60" r="52" fill="none" stroke="#38bdf8" stroke-width="15" transform="rotate(-90 60 60)"/>
+            <circle id="seg-wants" cx="60" cy="60" r="52" fill="none" stroke="var(--gold)" stroke-width="15" transform="rotate(-90 60 60)"/>
+            <circle id="seg-sav" cx="60" cy="60" r="52" fill="none" stroke="var(--grn)" stroke-width="15" transform="rotate(-90 60 60)"/>
+          </svg>
+          <div class="donut-center"><div class="dc-v" id="donut-pct">—</div><div class="dc-k" data-i18n="bar_savings">Savings</div></div>
+        </div>
+        <div class="legend" id="donut-legend"></div>
+      </div>
+
+      <h3 class="card-h" data-i18n="chart_line_h">Savings growth</h3>
+      <svg id="linechart" viewBox="0 0 320 160" role="img" aria-label="Projected savings over time" preserveAspectRatio="none"></svg>
+      <div class="line-meta"><span id="line-start">₹0</span><span id="line-goal"></span><span id="line-end"></span></div>
+
+      <h3 class="card-h" data-i18n="wi_h">What-if: play with your numbers</h3>
+      <p class="sub" data-i18n="wi_sub">Move the sliders and watch the goal change — live.</p>
+      <div class="wi-row">
+        <div class="wi-head"><label for="wi-cut" data-i18n="wi_cut">Cut wants by</label><span class="wi-val" id="wi-cut-v">₹0</span></div>
+        <input type="range" id="wi-cut" min="0" max="0" step="100" value="0">
+      </div>
+      <div class="wi-row">
+        <div class="wi-head"><label for="wi-inc" data-i18n="wi_inc">Extra income</label><span class="wi-val" id="wi-inc-v">₹0</span></div>
+        <input type="range" id="wi-inc" min="0" max="0" step="100" value="0">
+      </div>
+      <div class="wi-row">
+        <div class="wi-head"><label for="wi-months" data-i18n="wi_time">More time for the goal</label><span class="wi-val" id="wi-months-v">+0</span></div>
+        <input type="range" id="wi-months" min="0" max="24" step="1" value="0">
+      </div>
+      <div class="metrics wi-metrics">
+        <div class="metric"><div class="v" id="wi-savings">—</div><div class="k" data-i18n="wi_newsav">New monthly savings</div></div>
+        <div class="metric"><div class="v" id="wi-needed">—</div><div class="k" data-i18n="wi_newneed">Needed / month</div></div>
+        <div class="metric"><div class="v" id="wi-reach">—</div><div class="k" data-i18n="wi_reach">Goal reached in</div></div>
+      </div>
+      <div class="verdict" id="wi-note"></div>
+      <p class="fineprint" data-i18n="wi_note">Playing only — your saved plan does not change.</p>
+
+      <p class="fineprint" data-i18n="fineprint">All calculations are done by code — exact, never guessed by AI.</p>
+
+      <div class="btn-row exp-row">
+        <button class="btn" id="btn-wa" type="button" data-i18n="exp_wa">Share on WhatsApp</button>
+      </div>
+      <div class="btn-row exp-row">
+        <button class="btn ghost" id="btn-img" type="button" data-i18n="exp_img">Save as image</button>
+        <button class="btn ghost" id="btn-pdf" type="button" data-i18n="exp_pdf">Save as PDF</button>
+      </div>
+    </section>
+
+    <!-- CALCULATORS -->
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+        <span data-i18n="sip_h">SIP / Investment growth</span>
+      </h2>
+      <p class="sub" data-i18n="sip_sub">See how a monthly investment can grow over time. You enter the expected return — it is an estimate, not a promise.</p>
+      <div class="grid2">
+        <div class="field">
+          <label for="s-monthly" data-i18n="sip_monthly">Monthly investment (₹)</label>
+          <input id="s-monthly" type="number" min="0" value="5000" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="s-return" data-i18n="sip_return">Expected return (% per year)</label>
+          <input id="s-return" type="number" min="0" step="0.1" value="12" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label for="s-years" data-i18n="sip_years">For how many years</label>
+        <input id="s-years" type="number" min="1" value="5" inputmode="numeric">
+      </div>
+      <div class="status" id="s-status"></div>
+      <button class="btn" id="s-calc" type="button" data-i18n="btn_calc_tool">Calculate</button>
+      <div class="metrics hidden" id="s-results">
+        <div class="metric"><div class="v" id="s-invested">—</div><div class="k" data-i18n="sip_invested">You invest</div></div>
+        <div class="metric"><div class="v" id="s-gains">—</div><div class="k" data-i18n="sip_gains">Est. growth</div></div>
+        <div class="metric"><div class="v" id="s-value">—</div><div class="k" data-i18n="sip_value">Est. value at end</div></div>
+      </div>
+      <p class="fineprint" data-i18n="sip_note">Estimate only. Market returns change and are never guaranteed. This is not a recommendation of any fund or stock.</p>
+    </section>
+
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/></svg>
+        <span data-i18n="emi_h">Loan / EMI planner</span>
+      </h2>
+      <p class="sub" data-i18n="emi_sub">Know your EMI and the true cost of a loan before you sign.</p>
+      <div class="grid2">
+        <div class="field">
+          <label for="l-amount" data-i18n="emi_amount">Loan amount (₹)</label>
+          <input id="l-amount" type="number" min="0" value="100000" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="l-rate" data-i18n="emi_rate">Interest (% per year)</label>
+          <input id="l-rate" type="number" min="0" step="0.1" value="12" inputmode="decimal">
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label for="l-months" data-i18n="emi_months">Tenure (months)</label>
+          <input id="l-months" type="number" min="1" value="12" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="l-extra" data-i18n="emi_extra">Extra payment / month (₹, optional)</label>
+          <input id="l-extra" type="number" min="0" value="0" inputmode="numeric">
+        </div>
+      </div>
+      <div class="status" id="l-status"></div>
+      <button class="btn" id="l-calc" type="button" data-i18n="btn_calc_tool">Calculate</button>
+      <div class="metrics hidden" id="l-results">
+        <div class="metric"><div class="v" id="l-emi">—</div><div class="k" data-i18n="emi_emi">Monthly EMI</div></div>
+        <div class="metric"><div class="v" id="l-total">—</div><div class="k" data-i18n="emi_total">Total you pay</div></div>
+        <div class="metric"><div class="v" id="l-interest">—</div><div class="k" data-i18n="emi_interest">Total interest</div></div>
+      </div>
+      <div class="verdict hidden" id="l-payoff"></div>
+    </section>
+
+    <footer class="foot">
+      <span data-i18n-html="disc_text"><b>Disclaimer:</b> FinSathi is an educational money planner, not a SEBI-registered financial advisor. It does not recommend any specific stock, mutual fund or crypto.</span><br>
+      <span data-i18n="made_by">Made by Atharv Patel • FinSathi — Aspire. Save. Achieve.</span>
+    </footer>
+  </main>
+
+  <!-- ============ VIEW: GOALS ============ -->
+  <main id="view-goals" class="view hidden">
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+        <span data-i18n="g_add">Add a goal</span>
+      </h2>
+      <div class="field">
+        <label for="g-name" data-i18n="g_name">Goal name</label>
+        <input id="g-name" type="text" data-i18n-ph="ph_goal" placeholder="e.g. New Laptop">
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label for="g-amount" data-i18n="g_amount">Target amount (₹)</label>
+          <input id="g-amount" type="number" min="0" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="g-saved" data-i18n="g_saved">Already saved (₹)</label>
+          <input id="g-saved" type="number" min="0" value="0" inputmode="numeric">
+        </div>
+      </div>
+      <div class="field">
+        <label for="g-months" data-i18n="g_months">Months to reach</label>
+        <input id="g-months" type="number" min="1" value="12" inputmode="numeric">
+      </div>
+      <div class="status" id="g-status"></div>
+      <div class="btn-row">
+        <button class="btn ghost hidden" id="g-cancel" type="button" data-i18n="g_cancel">Cancel</button>
+        <button class="btn" id="g-add" type="button" data-i18n="g_add_btn">Add goal</button>
+      </div>
+      <p class="fineprint" data-i18n="g_max">You can track up to 5 goals.</p>
+    </section>
+    <section class="card">
+      <div class="totals-line"><span data-i18n="g_total_target">Total target</span><b id="g-total-target">—</b></div>
+      <div class="totals-line"><span data-i18n="g_total_saved">Total saved</span><b id="g-total-saved">—</b></div>
+      <div id="goals-list"></div>
+      <p class="sub center hidden" id="goals-empty" data-i18n="g_empty">No goals yet — add your first goal above.</p>
+    </section>
+  </main>
+
+  <!-- ============ VIEW: TRACK ============ -->
+  <main id="view-track" class="view hidden">
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20v-6M10 20V8M15 20v-9M20 20V4"/></svg>
+        <span data-i18n="tr_h">Expense tracker</span>
+      </h2>
+      <p class="sub" data-i18n="tr_sub">Add what you spend. Monthly needs and wants totals are calculated for you.</p>
+      <div class="field">
+        <label for="x-label" data-i18n="tr_label">What was it?</label>
+        <input id="x-label" type="text" data-i18n-ph="ph_expense" placeholder="e.g. Groceries">
+      </div>
+      <div class="grid2">
+        <div class="field">
+          <label for="x-amount" data-i18n="tr_amount">Amount (₹)</label>
+          <input id="x-amount" type="number" min="0" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label for="x-cat" data-i18n="tr_cat">Type</label>
+          <select id="x-cat">
+            <option value="need" data-i18n="tr_need">Need</option>
+            <option value="want" data-i18n="tr_want">Want</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="x-date" data-i18n="tr_date">Date</label>
+        <input id="x-date" type="date">
+      </div>
+      <div class="status" id="x-status"></div>
+      <button class="btn" id="x-add" type="button" data-i18n="tr_add">Add entry</button>
+    </section>
+    <section class="card">
+      <div class="field">
+        <label for="x-month" data-i18n="tr_month">Month</label>
+        <input id="x-month" type="month">
+      </div>
+      <div class="metrics">
+        <div class="metric"><div class="v" id="x-needs-total">—</div><div class="k" data-i18n="tr_needs_total">Needs this month</div></div>
+        <div class="metric"><div class="v" id="x-wants-total">—</div><div class="k" data-i18n="tr_wants_total">Wants this month</div></div>
+      </div>
+      <button class="btn gold" id="x-use" type="button" data-i18n="tr_use">Use these totals in my plan</button>
+      <div id="x-list"></div>
+      <p class="sub center hidden" id="x-empty" data-i18n="tr_empty">No entries for this month yet.</p>
+    </section>
+  </main>
+
+  <!-- ============ VIEW: ASK ============ -->
+  <main id="view-ask" class="view hidden">
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 4.6L18.5 9l-4.6 1.4L12 15l-1.9-4.6L5.5 9l4.6-1.4z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg>
+        <span data-i18n="ask_title">FinSathi AI Advice</span>
+      </h2>
+      <p class="sub" data-i18n="ask_sub">Optional: a short personal advice based on your plan. Needs your own free Gemini API key (setup below). The planner works fully without AI.</p>
+
+      <details class="setup" id="ai-setup">
+        <summary data-i18n="setup_summary">Advanced / AI setup — add your free Gemini API key</summary>
+        <div class="setup-body">
+          <ol class="steps">
+            <li data-i18n-html="setup_li1">Go to <b>aistudio.google.com</b> and sign in with your Google account.</li>
+            <li data-i18n-html="setup_li2">Click <b>Get API key</b> → <b>Create API key</b>.</li>
+            <li data-i18n-html="setup_li3">Copy the key, paste it below, and tap <b>Save</b>. You only do this once.</li>
+          </ol>
+          <p class="sub" data-i18n="setup_note">Your key is saved only in this browser. It is never sent anywhere except Google's Gemini API when you ask for advice. Never share your key with anyone.</p>
+          <div class="keyrow">
+            <input id="f-key" type="password" data-i18n-ph="ph_key" placeholder="Paste your Gemini API key here" autocomplete="off">
+            <button id="btn-key" type="button" data-i18n="btn_save_key">Save</button>
+          </div>
+          <div class="status" id="key-status"></div>
+        </div>
+      </details>
+
+      <button class="btn gold" id="btn-advice" type="button" data-i18n="btn_advice">Get My Advice</button>
+      <div class="status" id="ai-status"></div>
+      <div class="advice hidden" id="advice-box"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="step-title">
+        <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-3-.4-4.2-1.1L3 20l1.1-5.3A8.5 8.5 0 1 1 21 11.5z"/></svg>
+        <span data-i18n="chat_title">Ask FinSathi</span>
+      </h2>
+      <p class="sub" data-i18n="chat_sub">Ask anything about your budget, savings or goal — answers use your own plan.</p>
+      <div class="chatlog" id="chatlog"></div>
+      <div class="chatrow">
+        <input id="f-chat" type="text" data-i18n-ph="ph_chat" placeholder="Type your question… (press Enter)">
+        <button id="btn-chat" type="button" data-i18n="btn_send">Send</button>
+      </div>
+      <div class="status" id="chat-status"></div>
+    </section>
+  </main>
 
 </div>
 
-<script>
-// ==CALC START==
-function calcPlan(income, needs, wants, goalAmount, targetMonths){
-  var savings = income - needs - wants;               // true value, can be negative — never hidden
-  var needsPct = income > 0 ? (needs / income) * 100 : 0;
-  var wantsPct = income > 0 ? (wants / income) * 100 : 0;
-  var savPct   = income > 0 ? (savings / income) * 100 : 0;
-  var neededPerMonth = targetMonths > 0 ? goalAmount / targetMonths : 0;
-  var achievable = savings >= neededPerMonth && savings > 0;
-  var actualMonths = savings > 0 ? Math.round((goalAmount / savings) * 10) / 10 : Infinity;
-  var emergency = needs * 6;
-  return { savings:savings, needsPct:needsPct, wantsPct:wantsPct, savPct:savPct,
-           neededPerMonth:neededPerMonth, achievable:achievable,
-           actualMonths:actualMonths, emergency:emergency };
-}
-// ==CALC END==
+<!-- Print-only plan summary (used by Save as PDF) -->
+<div id="print-area" aria-hidden="true"></div>
 
-function inr(n){
-  if (!isFinite(n)) return "—";
-  return "₹" + Math.round(n).toLocaleString("en-IN");
-}
-function num(id){ var v = parseFloat(document.getElementById(id).value); return isNaN(v) ? 0 : v; }
-function txt(id){ return document.getElementById(id).value.trim(); }
+<!-- Bottom navigation -->
+<nav class="tabbar" aria-label="Main">
+  <button class="tab is-active" type="button" data-view="plan">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
+    <span data-i18n="tab_plan">Plan</span>
+  </button>
+  <button class="tab" type="button" data-view="goals">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>
+    <span data-i18n="tab_goals">Goals</span>
+  </button>
+  <button class="tab" type="button" data-view="track">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 20v-6M10 20V8M15 20v-9M20 20V4"/></svg>
+    <span data-i18n="tab_track">Track</span>
+  </button>
+  <button class="tab" type="button" data-view="ask">
+    <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.5 0-3-.4-4.2-1.1L3 20l1.1-5.3A8.5 8.5 0 1 1 21 11.5z"/></svg>
+    <span data-i18n="tab_ask">Ask</span>
+  </button>
+</nav>
 
-var lastPlan = null, lastInputs = null;
-
-document.getElementById("btn-calc").addEventListener("click", function(){
-  var income = num("f-income"), needs = num("f-needs"), wants = num("f-wants");
-  var goalAmount = num("f-goalamount"), months = Math.max(1, num("f-months"));
-  var p = calcPlan(income, needs, wants, goalAmount, months);
-  lastPlan = p;
-  lastInputs = { name: txt("f-name") || "Friend", age: num("f-age"), income: income, needs: needs,
-                 wants: wants, goalName: txt("f-goalname") || "Goal", goalAmount: goalAmount, months: months };
-
-  document.getElementById("results").classList.remove("hidden");
-  document.getElementById("m-savings").textContent = inr(p.savings);
-  document.getElementById("m-savings").style.color = p.savings < 0 ? "var(--red)" : "var(--grn2)";
-  document.getElementById("m-needed").textContent = inr(p.neededPerMonth);
-  document.getElementById("m-emergency").textContent = inr(p.emergency);
-  var feas = document.getElementById("m-feasible");
-  if (p.achievable){ feas.textContent = "Yes, on time 🎉"; feas.style.color = "var(--grn2)"; }
-  else if (!isFinite(p.actualMonths)){ feas.textContent = "Not yet possible"; feas.style.color = "var(--red)"; }
-  else { feas.textContent = p.actualMonths + " months needed"; feas.style.color = "var(--gold)"; }
-
-  function bar(id, tid, pct, ideal, label){
-    document.getElementById(id).style.width = Math.max(0, Math.min(100, pct)) + "%";
-    document.getElementById(tid).textContent = label + " " + pct.toFixed(1) + "% (ideal " + ideal + "%)";
-  }
-  bar("b-needs", "b-needs-txt", p.needsPct, 50, "Needs");
-  bar("b-wants", "b-wants-txt", p.wantsPct, 30, "Wants");
-  bar("b-sav",   "b-sav-txt",   p.savPct,   20, "Savings");
-
-  var v = document.getElementById("verdict");
-  if (p.savings <= 0){
-    v.innerHTML = "⚠️ <b>The honest truth:</b> right now your savings are zero or negative — your spending equals or exceeds your income. The goal becomes possible only when savings turn positive. Start by cutting <b>Wants</b> first.";
-  } else if (p.achievable){
-    v.innerHTML = "🎉 <b>Great news!</b> Keep saving at this pace and <b>" + lastInputs.goalName + "</b> will be yours within your target time. Just don't break the savings habit in between!";
-  } else {
-    v.innerHTML = "💪 <b>Close — just needs a push:</b> at your current saving rate, <b>" + lastInputs.goalName + "</b> will take <b>" + p.actualMonths + " months</b> (your target is " + lastInputs.months + "). You need to save " + inr(p.neededPerMonth) + " per month — about " + inr(p.neededPerMonth - p.savings) + " extra.";
-  }
-  document.getElementById("results").scrollIntoView({ behavior:"smooth", block:"start" });
-});
-
-// ---------- Gemini AI (single attempt — no auto-retry waits) ----------
-var MODEL = "gemini-3.8-flash";
-function getKey(){ return localStorage.getItem("finsathi_key") || ""; }
-var keyInput = document.getElementById("f-key");
-keyInput.value = getKey();
-document.getElementById("btn-key").addEventListener("click", function(){
-  localStorage.setItem("finsathi_key", keyInput.value.trim());
-  document.getElementById("ai-status").textContent = "✅ Key saved — you only need to enter it once.";
-});
-
-async function askGemini(prompt, statusEl){
-  var key = getKey();
-  if (!key){ statusEl.textContent = "🔑 First enter your Gemini API key above and tap Save (get a free one from aistudio.google.com)."; return null; }
-  var url = "https://generativelanguage.googleapis.com/v1beta/models/" + MODEL + ":generateContent?key=" + encodeURIComponent(key);
-  statusEl.textContent = "🤖 FinSathi is thinking…";
-  try {
-    var res = await fetch(url, { method:"POST", headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({ contents:[{ parts:[{ text: prompt }] }] }) });
-    if (res.status === 429){
-      statusEl.textContent = "⏸️ Free limit reached — the free plan allows only 5 requests per minute. Wait about a minute, then tap ONCE. Please don't keep tapping.";
-      return null;
-    }
-    if (!res.ok){ statusEl.textContent = "❌ Something went wrong (error " + res.status + "). Is the key correct? Please try again in a little while."; return null; }
-    var data = await res.json();
-    var t = data && data.candidates && data.candidates[0] && data.candidates[0].content &&
-            data.candidates[0].content.parts && data.candidates[0].content.parts[0] &&
-            data.candidates[0].content.parts[0].text;
-    statusEl.textContent = "";
-    return t || null;
-  } catch(e){
-    statusEl.textContent = "❌ Could not reach the AI service. If you opened this file inside an app preview, that preview blocks AI calls — open the file in Chrome, or use the live website link (GitHub Pages) instead.";
-    return null;
-  }
-}
-
-function planContext(){
-  if (!lastPlan || !lastInputs) return null;
-  var i = lastInputs, p = lastPlan;
-  return "User: " + i.name + ", age " + i.age + ". Monthly income " + inr(i.income) +
-    ", needs " + inr(i.needs) + " (" + p.needsPct.toFixed(1) + "%), wants " + inr(i.wants) +
-    " (" + p.wantsPct.toFixed(1) + "%), monthly savings " + inr(p.savings) + " (" + p.savPct.toFixed(1) + "%)." +
-    " Goal: " + i.goalName + " of " + inr(i.goalAmount) + " in " + i.months + " months; needs " +
-    inr(p.neededPerMonth) + " per month; " + (p.achievable ? "achievable on time" : ("at current rate takes " + p.actualMonths + " months")) +
-    ". Emergency fund target " + inr(p.emergency) + ".";
-}
-
-document.getElementById("btn-advice").addEventListener("click", async function(){
-  var st = document.getElementById("ai-status");
-  var ctx = planContext();
-  if (!ctx){ st.textContent = "📊 First enter your numbers above and tap 'Calculate My Finances' — the advice is based on that plan."; return; }
-  var btn = this; btn.disabled = true;
-  var prompt = "You are FinSathi, a friendly, encouraging personal finance advisor for an Indian user. " +
-    "Here is the user's calculated money plan: " + ctx +
-    " Give brief, practical budgeting and goal advice in simple, friendly English, strictly under 150 words. " +
-    "Strictly DO NOT recommend any specific stock, mutual fund or crypto. " +
-    "End with EXACTLY 3 bullet points of clear action items.";
-  var ans = await askGemini(prompt, st);
-  btn.disabled = false;
-  if (ans){
-    var box = document.getElementById("advice-box");
-    box.textContent = ans; box.classList.remove("hidden");
-    box.scrollIntoView({ behavior:"smooth", block:"center" });
-  }
-});
-
-// ---------- Chat ----------
-var chatlog = document.getElementById("chatlog");
-function addMsg(cls, text){
-  var d = document.createElement("div");
-  d.className = "msg " + cls; d.textContent = text;
-  chatlog.appendChild(d); chatlog.scrollTop = chatlog.scrollHeight;
-  return d;
-}
-async function sendChat(){
-  var inp = document.getElementById("f-chat");
-  var q = inp.value.trim(); if (!q) return;
-  var st = document.getElementById("chat-status");
-  var ctx = planContext();
-  if (!ctx){ st.textContent = "📊 First tap 'Calculate My Finances' above — only then can FinSathi answer using your plan."; return; }
-  if (!getKey()){ st.textContent = "🔑 First save your Gemini API key in the AI section above."; return; }
-  inp.value = "";
-  addMsg("u", q);
-  var btn = document.getElementById("btn-chat"); btn.disabled = true;
-  var prompt = "You are FinSathi, a friendly personal finance advisor. User's money plan: " + ctx +
-    " Answer the user's question in simple, friendly English, under 100 words. Never recommend specific stocks, mutual funds or crypto. " +
-    "Focus on budgeting, saving and goal planning. Question: " + q;
-  var ans = await askGemini(prompt, st);
-  btn.disabled = false;
-  if (ans) addMsg("a", ans);
-}
-document.getElementById("btn-chat").addEventListener("click", sendChat);
-document.getElementById("f-chat").addEventListener("keydown", function(e){ if (e.key === "Enter") sendChat(); });
-</script>
+<script src="app.js" defer></script>
 </body>
 </html>

@@ -1,94 +1,76 @@
-<p align="center"><img src="logo.png" width="120" alt="FinSathi logo"></p>
+# FinSathi — Your Free Personal Finance Advisor
 
-# 💰 FinSathi — Your Free Personal Finance Advisor
+![FinSathi logo](logo.png)
 
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
-![Price: Free](https://img.shields.io/badge/Price-Free-brightgreen.svg)
-![Made with HTML/CSS/JS](https://img.shields.io/badge/Made%20with-HTML%20%2B%20CSS%20%2B%20JS-orange.svg)
-![No Sign-Up](https://img.shields.io/badge/Sign--Up-Not%20Required-blue.svg)
+**FinSathi** is a free, no-sign-up personal finance planner for Indian users. It builds an honest money plan from your income, expenses and goals — and explains it like a friend, in **English, हिंदी or Hinglish**.
 
-**FinSathi** is a free personal finance advisor that anyone can use — no sign-up, no fees, no app download. Enter your income, expenses and a money goal, and FinSathi builds your complete plan in seconds: budget check, monthly savings, goal timeline, emergency fund target, and friendly AI advice based on your own numbers.
+All calculations (budget split, savings, goal timelines, SIP growth, EMIs) are done by **code**, never guessed by AI. The optional AI only explains your plan in words.
 
-> Most finance advisors and apps charge money. FinSathi is built to be **free for everyone, forever**.
+**Live app:** https://arvcreats.github.io/finsathi/
 
----
+## Features
 
-## 🌐 Live Demo
+- **3-step money plan** — Income → Expenses → Goal, with inline validation (no negatives, age 18–100, overspend warnings)
+- **Hero result** — "You save ₹X every month", 50/30/20 budget check, emergency fund target (3/6/9 months, your choice)
+- **Charts** — needs/wants/savings donut + savings-growth projection (hand-rolled SVG, no libraries)
+- **What-if sliders** — cut wants, add income, extend time; watch the goal move, live
+- **Up to 5 goals** — progress bars, per-month needed, months at your savings rate
+- **Expense tracker** — monthly needs/wants totals, one tap to feed them into your plan
+- **SIP / growth calculator** — with *your own* expected return % (estimate, never a promise)
+- **Loan / EMI planner** — EMI, total interest, and how much an extra monthly payment saves you
+- **Share & export** — WhatsApp summary, PNG plan card, print-ready PDF
+- **Optional AI advice + chat** — bring your own free Gemini API key; the app is fully useful without it
+- **3 languages** — English / हिंदी / Hinglish, including the AI's answers
+- **Dark & light themes**, auto-save in your browser, one-tap reset
+- **Real PWA** — installable, works offline
 
-👉 **[Open FinSathi](https://arvcreats.github.io/finsathi/)** *(link activates once GitHub Pages is turned on)*
+## Install the app (PWA)
 
-## 📱 Install on Your Phone (like an app)
+- **Android (Chrome):** open the live link → tap **Install** in the FinSathi banner (or ⋮ menu → *Install app*).
+- **iPhone (Safari):** open the live link → **Share** → **Add to Home Screen**.
+- **Desktop (Chrome/Edge):** use the install icon in the address bar.
 
-1. Open the live link in **Chrome** (Android) or **Safari** (iPhone)
-2. Tap the menu (⋮) → **Add to Home screen**
-3. FinSathi now sits on your home screen like a normal app — no Play Store needed
+Once installed, FinSathi opens like a normal app and works offline. Your data never leaves your device (everything is stored in your browser's localStorage).
 
-It also works on any laptop/desktop browser from the same link.
+## Get your free Gemini API key (optional, for AI advice)
 
-## ✨ Features
+1. Go to [aistudio.google.com](https://aistudio.google.com) and sign in with a Google account.
+2. Click **Get API key** → **Create API key**.
+3. In FinSathi, open the **Ask** tab → **Advanced / AI setup**, paste the key, tap **Save**. One time only.
 
-- **Instant money plan** — monthly savings, amount needed per month for your goal, and whether the goal is achievable in your target time (or how long it will actually take)
-- **50/30/20 budget check** — animated bars compare your Needs / Wants / Savings against the ideal 50-30-20 split
-- **Emergency fund target** — automatically calculated as 6 months of your essential expenses
-- **Honest numbers** — all maths is done by code, never guessed by AI; if your spending exceeds your income, FinSathi shows the real negative figure instead of hiding it
-- **AI advice** — tap *Get My Advice* for a short, practical plan in simple English, ending with 3 clear action points
-- **Ask FinSathi** — a chat where you can ask follow-up questions about your own budget and goals
-- **Your own API key** — every user enters their own free Gemini key, so there is no shared limit and no cost to anyone
-- **Private by design** — everything runs in your browser. Your numbers are never sent to any server except Google's Gemini API (only when you ask for AI advice), and your key is stored only in your own browser
+Your key stays in your browser and is sent only to Google's Gemini API when you ask for advice. Never share your key with anyone.
 
-## 🔑 Get Your Free Gemini API Key (2 minutes)
+> **Recommended upgrade path:** for a public deployment at scale, route AI calls through a **Cloudflare Worker proxy** so a shared key is never shipped to browsers, and add per-user rate limits. The current bring-your-own-key model keeps the app free and backend-less.
 
-The AI features need a free Google Gemini API key — it's your personal key and costs nothing:
+## Run it locally
 
-1. Go to **[aistudio.google.com](https://aistudio.google.com)**
-2. Sign in with your Google account
-3. Click **Get API key** → **Create API key**
-4. Copy the key, paste it into FinSathi's *FinSathi AI Advice* section, and tap **Save** (you only do this once)
-
-> ⚠️ Never share your API key with anyone or post it publicly.
-
-## 🛠️ Run It Locally
-
-FinSathi is a single file — `index.html`. Just download it and open it in Chrome, or serve the folder:
+No build step, no framework — plain HTML/CSS/vanilla JS:
 
 ```bash
-python -m http.server 8000
-# then open http://localhost:8000 in your browser
+git clone https://github.com/Arvcreats/finsathi.git
+cd finsathi
+python3 -m http.server 8000   # then open http://localhost:8000
 ```
 
-> Note: open it in a real browser (Chrome). In-app file previews block the AI calls.
+Files: `index.html` (structure) • `style.css` (design) • `app.js` (logic; `calcPlan()` is a pure, testable function with example cases in comments) • `manifest.json` + `sw.js` (PWA) • `logo.png`.
 
-## 🗂️ Project Structure
-
-```
-finsathi/
-├── index.html    ← the complete app (UI + calculations + AI)
-├── logo.png      ← the FinSathi logo (app icon + favicon)
-├── README.md     ← this file
-└── LICENSE       ← MIT License
-```
+Money is formatted in the Indian system (₹1,00,000) throughout.
 
 ## 🔄 Updates & Suggestions
 
-FinSathi is a living project — **it is updated and improved from time to time** (new features, design changes and fixes). Check this repository for the latest version.
-
-Have an idea, found a problem, or want a change? **Suggestions are welcome!** Open an [Issue](../../issues) in this repository and describe what you have in mind.
+This repository is updated from time to time with improvements and new features. Suggestions are welcome — please open an **Issue** with your idea.
 
 ## 🛡️ Who Can Edit This Code?
 
-Only the repository owner can change this code. This is a public repository, so anyone can **view** it and **fork** (make their own copy) it to experiment — but nobody else can edit or publish changes to this original repository. Suggestions come through Issues, and the owner decides what gets added.
+Only the repository owner can edit this code and publish changes. The code is public so anyone can **view** it or **fork** it to make their own version, but changes to this live app can only be made by the owner.
 
-## ⚠️ Disclaimer
+## Disclaimer
 
-FinSathi is an **educational money planner, not a SEBI-registered financial advisor**. It does not recommend any specific stock, mutual fund or crypto. For serious investment decisions, please consult a registered professional.
+FinSathi is an **educational money planner**, not a SEBI-registered financial advisor. It does not recommend any specific stock, mutual fund or crypto. Calculator results are estimates based on the numbers and return assumptions *you* enter; market returns are never guaranteed. Please consult a registered advisor for personalised financial advice.
 
-## 👤 Author
+## Author
 
 **Atharv Patel** — First-year B.Com student at MIT, Pune.
-Built FinSathi so that good money planning is free for everyone, not just for people who can pay an advisor.
+LinkedIn: https://www.linkedin.com/in/atharv-patel-b89991272 • Book a meeting: https://calendly.com/atharvpatel2008/meeting-with-atharv-patel
 
-*FinSathi — Aspire. Save. Achieve.*
-
-## 📄 License
-
-Released under the [MIT License](LICENSE) — free to use, share and improve.
+MIT License — © 2026 Atharv Patel. See [LICENSE](LICENSE).
