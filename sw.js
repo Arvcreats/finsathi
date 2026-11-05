@@ -1,6 +1,6 @@
 /* FinSathi service worker — caches the app shell so the app opens offline.
    Bump CACHE_VERSION whenever the shell files change. */
-var CACHE_VERSION = "finsathi-v2-final2";
+var CACHE_VERSION = "finsathi-v2-final3";
 var SHELL = ["./", "index.html", "style.css", "app.js", "logo.png", "manifest.json"];
 
 self.addEventListener("install", function(e){

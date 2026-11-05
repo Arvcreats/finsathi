@@ -220,6 +220,11 @@ input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;bac
 /* Stage 7: install bar */
 .install-bar{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 14px;border-radius:14px;
   background:var(--card);border:1px solid var(--line);backdrop-filter:blur(12px);font-size:13.5px}
+.whatsnew-bar{display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 14px;border-radius:14px;
+  background:color-mix(in srgb, var(--accent) 10%, var(--card));border:1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  font-size:.86rem;color:var(--text)}
+.whatsnew-bar .wn-ic{width:18px;height:18px;flex:none;color:var(--accent)}
+.whatsnew-bar .wn-txt{flex:1;line-height:1.45}
 .install-bar .ib-txt{flex:1;line-height:1.4}
 .ib-btn{border-color:var(--grn);color:var(--grn-strong);font-weight:700}
 .ib-x{border:none;background:none;color:var(--mut);font-size:20px;cursor:pointer;padding:4px 8px;min-height:38px;line-height:1}

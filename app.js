@@ -14,7 +14,11 @@ var CONFIG = {
   THEME_KEY: "finsathi_theme",
   LANG_KEY: "finsathi_lang",
   DATA_KEY: "finsathi_data_v2",
-  INSTALL_KEY: "finsathi_install_dismissed"
+  INSTALL_KEY: "finsathi_install_dismissed",
+  SEEN_KEY: "finsathi_seen_version",
+  // Bump APP_VERSION on every release AND update whatsnew_text in all
+  // 3 languages below — the What's New strip then shows once per user.
+  APP_VERSION: "2.1"
 };
 
 // ==CALC START==
@@ -159,7 +163,8 @@ en: {
   share_title:"My FinSathi Money Plan", share_saves:"Every month I save: {x}", share_goal:"Goal: {g} — {a} in {m} months",
   share_split:"Needs {n}% • Wants {w}% • Savings {s}%", share_cta:"Make your own free plan: https://arvcreats.github.io/finsathi/",
   print_h:"My Money Plan", install_title:"Get the FinSathi app — free, works offline", install_btn:"Install",
-  install_ios:"To install: tap the Share button, then 'Add to Home Screen'."
+  install_ios:"To install: tap the Share button, then 'Add to Home Screen'.",
+  whatsnew_label:"What's new:", whatsnew_text:"Fresh look, up to 5 savings goals, an expense tracker, SIP & EMI calculators — and FinSathi now installs like a real app!"
 },
 hi: {
   brand_tag:"आपका मुफ़्त पर्सनल फाइनेंस सलाहकार",
@@ -244,7 +249,8 @@ hi: {
   share_title:"मेरा FinSathi मनी प्लान", share_saves:"हर महीने मेरी बचत: {x}", share_goal:"लक्ष्य: {g} — {m} महीनों में {a}",
   share_split:"ज़रूरतें {n}% • चाहतें {w}% • बचत {s}%", share_cta:"अपना मुफ़्त प्लान बनाएँ: https://arvcreats.github.io/finsathi/",
   print_h:"मेरा मनी प्लान", install_title:"FinSathi ऐप लें — मुफ़्त, ऑफ़लाइन भी चलेगा", install_btn:"इंस्टॉल करें",
-  install_ios:"इंस्टॉल करने के लिए: Share बटन दबाएँ, फिर 'Add to Home Screen' चुनें।"
+  install_ios:"इंस्टॉल करने के लिए: Share बटन दबाएँ, फिर 'Add to Home Screen' चुनें।",
+  whatsnew_label:"नया क्या है:", whatsnew_text:"नया लुक, 5 तक बचत लक्ष्य, खर्च ट्रैकर, SIP और EMI कैलकुलेटर — और अब FinSathi असली app की तरह install होता है!"
 },
 hinglish: {
   brand_tag:"Aapka free personal finance advisor",
@@ -329,7 +335,8 @@ hinglish: {
   share_title:"Mera FinSathi Money Plan", share_saves:"Har month meri savings: {x}", share_goal:"Goal: {g} — {m} months me {a}",
   share_split:"Needs {n}% • Wants {w}% • Savings {s}%", share_cta:"Apna free plan banao: https://arvcreats.github.io/finsathi/",
   print_h:"Mera Money Plan", install_title:"FinSathi app lo — free, offline bhi chalega", install_btn:"Install karo",
-  install_ios:"Install karne ke liye: Share button dabao, phir 'Add to Home Screen' chuno."
+  install_ios:"Install karne ke liye: Share button dabao, phir 'Add to Home Screen' chuno.",
+  whatsnew_label:"Naya kya hai:", whatsnew_text:"Naya look, 5 tak savings goals, kharcha tracker, SIP aur EMI calculator — aur ab FinSathi asli app ki tarah install hota hai!"
 }
 };
 var LANG_INSTR = {
@@ -440,6 +447,7 @@ function applyLang(lang){
   document.querySelectorAll("[data-i18n]").forEach(function(el){ el.textContent = t(el.getAttribute("data-i18n")); });
   document.querySelectorAll("[data-i18n-html]").forEach(function(el){ el.innerHTML = t(el.getAttribute("data-i18n-html")); });
   document.querySelectorAll("[data-i18n-ph]").forEach(function(el){ el.setAttribute("placeholder", t(el.getAttribute("data-i18n-ph"))); });
+  renderWhatsNew();
   if (lastPlan && lastInputs) renderPlan(false);
   refreshWarning();
   renderGoals(); renderTrack();
@@ -634,6 +642,22 @@ $("btn-advice").addEventListener("click", async function(){
     box.textContent = ans; box.classList.remove("hidden");
     box.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center" });
   }
+});
+
+// ---------- What's New strip (shows once per APP_VERSION) ----------
+function renderWhatsNew(){
+  $("whatsnew-label").textContent = t("whatsnew_label");
+  $("whatsnew-text").textContent = t("whatsnew_text");
+}
+function initWhatsNew(){
+  renderWhatsNew();
+  var seen = null;
+  try{ seen = localStorage.getItem(CONFIG.SEEN_KEY); }catch(e){}
+  if (seen !== CONFIG.APP_VERSION) $("whatsnew-bar").classList.remove("hidden");
+}
+$("btn-whatsnew-x").addEventListener("click", function(){
+  $("whatsnew-bar").classList.add("hidden");
+  try{ localStorage.setItem(CONFIG.SEEN_KEY, CONFIG.APP_VERSION); }catch(e){}
 });
 
 // ---------- Chat ----------
@@ -1116,3 +1140,4 @@ if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("sw.js").catch(function(){ /* offline support is a bonus, never an error */ });
   });
 }
+initWhatsNew();
