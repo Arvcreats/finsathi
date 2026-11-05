@@ -70,7 +70,7 @@ FinSathi is an **educational money planner**, not a SEBI-registered financial ad
 
 ## Author
 
-**Atharv Patel** — First-year B.Com student at MIT, Pune.
+**ARV** — First-year B.Com student at MIT, Pune.
 LinkedIn: https://www.linkedin.com/in/atharv-patel-b89991272 • Book a meeting: https://calendly.com/atharvpatel2008/meeting-with-atharv-patel
 
-MIT License — © 2026 Atharv Patel. See [LICENSE](LICENSE).
+MIT License — © 2026 ARV. See [LICENSE](LICENSE).
