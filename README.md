@@ -23,6 +23,19 @@ All calculations (budget split, savings, goal timelines, SIP growth, EMIs) are d
 - **3 languages** — English / हिंदी / Hinglish, including the AI's answers
 - **Dark & light themes**, auto-save in your browser, one-tap reset
 - **Real PWA** — installable, works offline
+- **Android APK** — also available as a real Android app (signed APK, Android 7+); see below
+
+## Android APK
+
+FinSathi also comes as a real Android app — the same live app, opening full-screen without a browser.
+
+**Download:** [FinSathi.apk](https://github.com/Arvcreats/finsathi/releases/latest/download/FinSathi.apk) (from this repo's Releases)
+
+1. Download the APK on your Android phone.
+2. Open it from **Files → Downloads** and tap **Install** (Android may ask you to allow "Install unknown apps" once).
+3. Works on Android 7.0 or above. Signed APK, package `io.github.arvcreats.finsathi`.
+
+> Prefer not to install anything? The PWA route below works in any browser — iPhone and desktop users should use that one.
 
 ## Install the app (PWA)
 
